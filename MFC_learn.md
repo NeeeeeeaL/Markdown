@@ -1,4 +1,4 @@
-## MFC (Microsoft Foundation Classes) Learning Note
+r## MFC (Microsoft Foundation Classes) Learning Note
 
 ### 1. Basic concept
 
@@ -31,3 +31,116 @@ WINAPI：Windows平台下的系统调用，windows.h，调用系统提供的特�
     + 显示和更新窗口
 3. 消息循环
 4. 窗口过程函数
+
+### 3. 一个MFC程序 (纯代码)
+
+1. 应用程序类 CWinApp
+2. 框架类 CFrameWnd
+
+头文件：
+
+```
+#pragma once //使头文件只被编译一次
+#include <afxwin.h>
+
+class MyApp: public CWinApp 
+{
+public:
+
+	//MFC程序的入口地址
+	virtual BOOL InitInstance();
+
+private:
+};
+
+class MyFrame: public CFrameWnd
+{
+public:
+	MyFrame();
+
+private:
+
+};
+
+```
+
+源文件：
+
+```
+#include "mfc.h"
+
+//有且只有一个的应用程序类对象
+MyApp myApp;
+
+//程序的入口地址
+BOOL MyApp::InitInstance()
+{
+	/*
+	1. 创建框架类对象
+	2. 显示窗口
+	3. 更新窗口
+	4. 保存框架类对象指针
+	*/
+
+	//1. 创建框架类对象
+	MyFrame *frame = new MyFrame;//构造函数
+
+	//2. 显示窗口
+	frame->ShowWindow(SW_SHOWNORMAL);
+
+	//3. 更新窗口
+	frame->UpdateWindow();
+
+	//4. 保存框架类对象指针
+	m_pMainWnd = frame;
+
+
+
+	return true;
+}
+
+MyFrame::MyFrame()
+{
+	//CWnd类的成员函数 CWnd::Create
+	//CFrameWnd 继承于 CWnd
+
+	Create(NULL, TEXT("MFC"));
+}
+```
+方法：
+
+1. 有且只有一个的应用程序类对象
+2. 在程序入口函数实现功能 ` InitInstance() `
+   + 给框架类对象动态分配空间(自动调用它的构造函数)
+     + 框架类对象MyFrame对象构造函数里创建窗口 ` CWnd::Create `
+   + 框架类对象显示窗口 ` CWnd::ShowWindow `
+   + 框架类对象刷新窗口 ` CWnd::UpdateWindow `
+   + 保存框架类对象指针 ` m_pMainWnd `，不保存的话，窗口会一直闪
+
+加上事件处理：
+
+消息映射
+1. 在所操作的类中，声明消息映射宏
+
+    ` DECLARE_MESSAGE_MAP() `
+2. 对应的.cpp定义宏
+
+```
+BEGIN_MESSAGE_MAP(MyFrame, CFrameWnd) //参数：派生类，基类名
+	ON_WM_LBUTTONDOWN() //消息映射入口
+END_MESSAGE_MAP()
+```
+3. 对应类中，消息处理函数声明
+4. 消息处理函数书定义
+
+### 4.根据向导创建工程
+
+1. 文档试图结构
+
+文档：是一个类，专门存储数据
+
+视图：是一个类，显示和修改数据
+
+框架类：一个容器，装了视图
+
+

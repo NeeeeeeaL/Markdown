@@ -1,4 +1,4 @@
-r## MFC (Microsoft Foundation Classes) Learning Note
+## MFC (Microsoft Foundation Classes) Learning Note
 
 ### 1. Basic concept
 
@@ -142,5 +142,79 @@ END_MESSAGE_MAP()
 视图：是一个类，显示和修改数据
 
 框架类：一个容器，装了视图
+
+2. 几个重要函数：
+
+应用程序类 CWinApp：` InitInstance() `
+
+框架类 CFrameWnd:
+
++ ` PreCreateWindow() ` 创建窗口之前调用
++ ` OnCreate() ` 创建窗口后，触发WM_CREATE，它是WM_CREATE消息的处理函数
++ ` OnDraw() `绘图，WM_PAINT消息处理函数` OnPaint() `内部调用` OnDraw() `
+
+***` OnPaint() `和` OnDraw() `同时存在，只有` OnPaint() `有效***
+
+1. 事件的添加和删除
+
++ 框架和视图的区别
+
+	+ 框架相当于容器，容器里放着视图
+	+ 视图相当于壁纸
+
+### 5. 字符集
+
+ANSI 多字节，单字节
+
+` char p[] = "abcdet"; //一个字符一个字节 `
+
+ unicode 宽字节，一个字符两个字节
+
+ ` TCHAR *P = L"abc"; //一个字符两个字节 `
+
+ ` wcslen(p); `
+
+ MFC:
+
+ ` TCHAR `：自动适应字节(条件编译)
+
+用以下两种方式显示字符：
+```
+TEXT("NeaL")
+_T("NeaL")
+```
+
+### 6. 拓展
+
+` afx_xxx `：全局函数，不属于某个类特有的
+
+` xxxEx `; ` xxxW `：拓展函数，与原函数功能大致相同
+
+MFC命名规范：
+
+类、函数命名：首字母大写
+
+```
+class MyClass
+{
+
+};
+
+void SetName()
+{
+
+};
+
+//形参
+
+isFlag
+isPressTest
+
+//成员变量
+
+m_xxxx
+m_hWnd
+
+```
 
 

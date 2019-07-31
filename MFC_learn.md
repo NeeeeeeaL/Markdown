@@ -206,15 +206,54 @@ void SetName()
 };
 
 //形参
-
 isFlag
 isPressTest
 
 //成员变量
-
 m_xxxx
 m_hWnd
 
 ```
 
+### 7. 对话框
 
++ 模态对话框
+  + 资源视图 -> Dialog -> 右击 -> 插入 Dialog
+  + 创建对话框对象 CDialog
+  + 以模态方式运行 CDialog::DoModal
+
++ 非模态对话框
+  + 资源视图 -> Dialog -> 右击 -> 插入 Dialog
+  + 创建对话框对象，需要在.h的地方声明为成员变量 CDialog
+  + 创建对话框(在构造函数或OnCreate()，目的是只创建一次) CDialog::Create
+  + 显示窗口 CWnd::ShowWindow
+
++ 自定义对话框类(重要)
+  + 资源视图 -> Dialog -> 右击 -> 插入 Dialog
+  + 点击对话框模板 -> 右击 -> 添加类
+  + 多出来一个自定义的类，.h类中有个枚举和对话框关联 ` enum { IDO = IDD_DIALOG2}; `
+
+### 8. 基于对话框(控件)编程
+
+基于对话框应用程序框架
+
++ 应用程序类：继承于CWinApp
+
+	` InitInstance() //程序入口地址 ` 
++ 对话框类：继承于CDialogEx
+  
+	` OninitDialog() //对话框的初始化工作 `
+
+	` DoDataExchange() //控件和变量的关联和交换 `
+
+### 9. 常用控件
+
++ 静态控件 CStatic：显示文字信息
+  + Caption：修改现实的内容(属性里修改)
+  + ID: XXX_STATIC，静态ID，不响应任何消息(事件)
+
++ 按钮 CButton
+  + Caption：修改现实的内容(属性里修改)
+  + 处理消息 BN_CLICKED，用户点击按钮自动触发
+    + 属性 -> 控制事件 -> 选择所需事件
+    + 双击按钮，自动生成消息处理函数

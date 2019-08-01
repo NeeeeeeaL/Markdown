@@ -1,5 +1,17 @@
 ## MFC (Microsoft Foundation Classes) Learning Note
 
+- [MFC (Microsoft Foundation Classes) Learning Note](#mfc-microsoft-foundation-classes-learning-note)
+	- [1. Basic concept](#1-basic-concept)
+	- [2. WINAPI窗口程序](#2-winapi%e7%aa%97%e5%8f%a3%e7%a8%8b%e5%ba%8f)
+	- [3. 一个MFC程序 (纯代码)](#3-%e4%b8%80%e4%b8%aamfc%e7%a8%8b%e5%ba%8f-%e7%ba%af%e4%bb%a3%e7%a0%81)
+	- [4.根据向导创建工程](#4%e6%a0%b9%e6%8d%ae%e5%90%91%e5%af%bc%e5%88%9b%e5%bb%ba%e5%b7%a5%e7%a8%8b)
+	- [5. 字符集](#5-%e5%ad%97%e7%ac%a6%e9%9b%86)
+	- [6. 拓展](#6-%e6%8b%93%e5%b1%95)
+	- [7. 对话框](#7-%e5%af%b9%e8%af%9d%e6%a1%86)
+	- [8. 基于对话框(控件)编程](#8-%e5%9f%ba%e4%ba%8e%e5%af%b9%e8%af%9d%e6%a1%86%e6%8e%a7%e4%bb%b6%e7%bc%96%e7%a8%8b)
+	- [9. 常用控件](#9-%e5%b8%b8%e7%94%a8%e6%8e%a7%e4%bb%b6)
+
+
 ### 1. Basic concept
 
 SDK：(Software Development Kit) 软件开发工具包
@@ -112,7 +124,7 @@ MyFrame::MyFrame()
 1. 有且只有一个的应用程序类对象
 2. 在程序入口函数实现功能 ` InitInstance() `
    + 给框架类对象动态分配空间(自动调用它的构造函数)
-     + 框架类对象MyFrame对象构造函数里创建窗口 ` CWnd::Create `
+       + 框架类对象MyFrame对象构造函数里创建窗口 ` CWnd::Create `
    + 框架类对象显示窗口 ` CWnd::ShowWindow `
    + 框架类对象刷新窗口 ` CWnd::UpdateWindow `
    + 保存框架类对象指针 ` m_pMainWnd `，不保存的话，窗口会一直闪
@@ -218,20 +230,20 @@ m_hWnd
 ### 7. 对话框
 
 + 模态对话框(当其显示时，程序会暂停执行，直到关闭这个模态对话框后，才能继续执行程序中其他任务)
-  + 资源视图 -> Dialog -> 右击 -> 插入 Dialog
-  + 创建对话框对象 CDialog
-  + 以模态方式运行 CDialog::DoModal
+    + 资源视图 -> Dialog -> 右击 -> 插入 Dialog
+    + 创建对话框对象 CDialog
+    + 以模态方式运行 CDialog::DoModal
 
 + 非模态对话框(当其显示时，允许转而执行程序中其他任务，而不用关闭这个对话框)
-  + 资源视图 -> Dialog -> 右击 -> 插入 Dialog
-  + 创建对话框对象，需要在.h的地方声明为成员变量 CDialog
-  + 创建对话框(在构造函数或OnCreate()，目的是只创建一次) CDialog::Create
-  + 显示窗口 CWnd::ShowWindow
+    + 资源视图 -> Dialog -> 右击 -> 插入 Dialog
+    + 创建对话框对象，需要在.h的地方声明为成员变量 CDialog
+    + 创建对话框(在构造函数或OnCreate()，目的是只创建一次) CDialog::Create
+    + 显示窗口 CWnd::ShowWindow
 
 + 自定义对话框类(重要)
-  + 资源视图 -> Dialog -> 右击 -> 插入 Dialog
-  + 点击对话框模板 -> 右击 -> 添加类
-  + 多出来一个自定义的类，.h类中有个枚举和对话框关联 ` enum { IDO = IDD_DIALOG2}; `
+    + 资源视图 -> Dialog -> 右击 -> 插入 Dialog
+    + 点击对话框模板 -> 右击 -> 添加类
+    + 多出来一个自定义的类，.h类中有个枚举和对话框关联 ` enum { IDO = IDD_DIALOG2}; `
 
 ### 8. 基于对话框(控件)编程
 
@@ -249,25 +261,25 @@ m_hWnd
 ### 9. 常用控件
 
 + 静态控件 CStatic：显示文字信息
-  + Caption：修改现实的内容(属性里修改)
-  + ID: XXX_STATIC，静态ID，不响应任何消息(事件)
+    + Caption：修改现实的内容(属性里修改)
+    + ID: XXX_STATIC，静态ID，不响应任何消息(事件)
 
 + 按钮 CButton
-  + Caption：修改现实的内容(属性里修改)
-  + 处理消息 BN_CLICKED，用户点击按钮自动触发
-    + 属性 -> 控制事件 -> 选择所需事件
-    + 双击按钮，自动生成消息处理函数
-  + 常用属性设置
-    + Number -> True 只能输入数字
-    + Password -> True 密码模式
-    + Want return -> True 接收回车键，自动换行，只有在多行模式下，才能换行
-    + Multiline -> True 多行模式
-    + Auto VScoll -> True , Vertical Scroll -> True 当垂直方向字符太多，自动出现滚动条
-    + Read Only -> True 只读
-  + 复制小案例(关联 control：控件类型，只能关联一次)
-    + 获取编辑区内容：CWnd::GetWindowText
-    + 设置编辑区内容：CWnd::SetWindowText
-    + 关闭对话框窗口
+    + Caption：修改现实的内容(属性里修改)
+    + 处理消息 BN_CLICKED，用户点击按钮自动触发
+        + 属性 -> 控制事件 -> 选择所需事件
+        + 双击按钮，自动生成消息处理函数
+    + 常用属性设置
+        + Number -> True 只能输入数字
+        + Password -> True 密码模式
+        + Want return -> True 接收回车键，自动换行，只有在多行模式下，才能换行
+        + Multiline -> True 多行模式
+        + Auto VScoll -> True , Vertical Scroll -> True 当垂直方向字符太多，自动出现滚动条
+        + Read Only -> True 只读
+    + 复制小案例(关联 control：控件类型，只能关联一次)
+        + 获取编辑区内容：CWnd::GetWindowText
+        + 设置编辑区内容：CWnd::SetWindowText
+        + 关闭对话框窗口
      
 		` CDialog::OnOK(); `
 
@@ -276,4 +288,79 @@ m_hWnd
 + 单选框、复选框(特殊的CButton，没有单选框，复选框类型)
 
 	+ 单选框
-    	+ 
+    	+ 属性设置：顺序排放 Ctrl + D 查看
+    	+ 同组第一个按钮 Group 设置为 True
+    	+ 初始化单选框 CWnd::CheckRadioButton
+    	+ 按钮是否按下 CWnd::IsDlgButtonChecked
+  	+ 复选框
+    	+ 常关联变量 BOOL UpdateData(TRUE), UpdateData(FALSE);
+    	+ 设置按钮选择状态 CButton::SetCheck
+    	+ 获取按钮选择状态 CButton::GetCheck
+
++ 列表框 CListBox
+    + 给列表框添加一个字符串 CListBox::AddString
+    + 选中列表列表框某一项，自动出发事件：LBN_SELCHANGE
+        + 获取当前选中项 CListBox::GetCurse
+        + 获取指定位置的内容 CListBox::GetText 
+    + 删除指定位置的字符串 CListBox::DeleteString
+    + 在指定位置插入字符串 CListBox::InsertString
+
++ 组合框(下拉框) CComboBox
+    + 获取内容：CComboBox::GetLBText, 其他接口和CListBox 的用法几乎一样
+    + 属性设置
+        + data：设置内容，不同内容间用英文` ; `分隔
+        + type
+
++ 滚动条(滑块) CScrollBar
+    + 设置给定滚动条的最大和最小位置：CScrollBar::SetScrollRange
+    + 获取一个滚动框的当前位置：CScrollBar::GetScrollPos
+    + 设置一个滚动框的当前位置：CScrollBar::SetScrollPos
+    + 处理滚动条的事件，不是在滚动条件控件本身处理，是在滚动条所属的父窗口处理（对话框类），处理信号：WM_HSCROLL
+    + 滚动条位置关系
+        ```
+		switch(nSBCode) //判断滚动条的哪一部分
+		{
+			case SB_THUMBPOSITION: //滑块位置
+				break;
+			case SB_LINELEFT: //向左的箭头
+				break;
+			case SB_LINERIGHT: //向右的箭头
+				break;
+			case SB_PAGELEFT: //箭头和滑块之间左边
+				break;
+			case SB_PAGERIGHT: //箭头和滑块之间右边
+				break;
+			default:
+				break;
+		}
+		``` 
+
++ 微调(旋转)按钮 SpinControl 的使用
+    + 属性设置：
+     
+		Auto Buddy -> True
+
+		Set buddy integer -> True
+	
+	+ 微调(旋转)按钮的顺序比伙伴大1(Ctrl + D 查看)
+
+
++ 列表视图控件 CListCtrl
+    + 属性设置 view -> Report (报表形式)
+    + 常用接口
+        + 设置列表风格 CListCtrl::SetExtendedStyle
+
+			LVS_EX_FULLROWSELECT：选择整行
+
+			LVS_EX_GRIDLINES：网格方式
+
+			具体有哪些风格，可通过MSDN查看
+		
+		+ 获取列表风格 CListCtrl::SetExtendedStyle
+
+			具体有哪些风格，可通过MSDN查看
+
+		+ 插入某列 CListCtrl::InsertColumn
+
+
+		

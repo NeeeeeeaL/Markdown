@@ -217,12 +217,12 @@ m_hWnd
 
 ### 7. 对话框
 
-+ 模态对话框
++ 模态对话框(当其显示时，程序会暂停执行，直到关闭这个模态对话框后，才能继续执行程序中其他任务)
   + 资源视图 -> Dialog -> 右击 -> 插入 Dialog
   + 创建对话框对象 CDialog
   + 以模态方式运行 CDialog::DoModal
 
-+ 非模态对话框
++ 非模态对话框(当其显示时，允许转而执行程序中其他任务，而不用关闭这个对话框)
   + 资源视图 -> Dialog -> 右击 -> 插入 Dialog
   + 创建对话框对象，需要在.h的地方声明为成员变量 CDialog
   + 创建对话框(在构造函数或OnCreate()，目的是只创建一次) CDialog::Create
@@ -257,3 +257,23 @@ m_hWnd
   + 处理消息 BN_CLICKED，用户点击按钮自动触发
     + 属性 -> 控制事件 -> 选择所需事件
     + 双击按钮，自动生成消息处理函数
+  + 常用属性设置
+    + Number -> True 只能输入数字
+    + Password -> True 密码模式
+    + Want return -> True 接收回车键，自动换行，只有在多行模式下，才能换行
+    + Multiline -> True 多行模式
+    + Auto VScoll -> True , Vertical Scroll -> True 当垂直方向字符太多，自动出现滚动条
+    + Read Only -> True 只读
+  + 复制小案例(关联 control：控件类型，只能关联一次)
+    + 获取编辑区内容：CWnd::GetWindowText
+    + 设置编辑区内容：CWnd::SetWindowText
+    + 关闭对话框窗口
+     
+		` CDialog::OnOK(); `
+
+		` CDialog::OnCancel(); `
+
++ 单选框、复选框(特殊的CButton，没有单选框，复选框类型)
+
+	+ 单选框
+    	+ 

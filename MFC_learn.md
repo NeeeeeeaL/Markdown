@@ -262,13 +262,46 @@ m_hWnd
 
 + 静态控件 CStatic：显示文字信息
     + Caption：修改现实的内容(属性里修改)
-    + ID: XXX_STATIC，静态ID，不响应任何消息(事件)
+    + ID: XXX_STATIC，静态ID，不响应任何消息(事件),不能关联控件变量
 
 + 按钮 CButton
     + Caption：修改现实的内容(属性里修改)
     + 处理消息 BN_CLICKED，用户点击按钮自动触发
         + 属性 -> 控制事件 -> 选择所需事件
         + 双击按钮，自动生成消息处理函数
+
++ 逃跑按钮(练习)
+    + 自定义按钮类，继承于CButton
+    + 选择类视图最开始的文件夹 -> 右击 -> 添加类 -> MFC -> MFC类
+        + 处理鼠标移动消息 WM_MOUSEMOVE
+        + 获取父窗口指针 CWnd::GetParent
+        + 获取父窗口客户区域的范围 CWnd::GetClientRect
+        + 获取按钮的范围 CWnd::GetWindowRect
+        + 产生随机坐标 rand() %w
+        + 移动按钮的位置 CWnd::MoveWindow
+
+	+ 变量关联
+    	+ 选中按钮 -> 右击 -> 添加变量 -> 变量类型：MyButton -> 变量：button
+    	+ 最终，button和我们选中的按钮关联成功，操作button，相当于操作ui的按钮
+    	+ 为按钮设置位图
+        	+ 按钮属性：Bitmap -> True
+        	+ 在对话框类中 OnInitDialog() 作如下处理
+            	+ 创建位图模板
+            	+ 创建位图对象 CBitmap
+            	+ 加载位图资源 CBitmap::LoadBitmap
+            	+ 按钮设置位图 CBitmap::SetBitmap
+            	+ 获取位图大小 CBotmap::GetBitmap
+            	+ 重新设置按钮大小(图片和按钮大小一致) CWnd::MoveWindow
+
++ 编辑框
+    + 关联类别：Value，Control
+        + Value :标准普通数据类型  ` CString str; `
+        + 关联变量和控件数据的交互更新
+            + 把编辑区的内容更新到str中 ` UpdaateData(TRUE) `
+            + 把str的内容更新到编辑区中 ` UpdaateData(FALSE) `
+
+		+ Control：控件类型：控件类型的对象即为ui上的控件
+
     + 常用属性设置
         + Number -> True 只能输入数字
         + Password -> True 密码模式
@@ -288,7 +321,7 @@ m_hWnd
 + 单选框、复选框(特殊的CButton，没有单选框，复选框类型)
 
 	+ 单选框
-    	+ 属性设置：顺序排放 Ctrl + D 查看
+    	+ 属性设置：**顺序排放** Ctrl + D 查看
     	+ 同组第一个按钮 Group 设置为 True
     	+ 初始化单选框 CWnd::CheckRadioButton
     	+ 按钮是否按下 CWnd::IsDlgButtonChecked
@@ -338,11 +371,11 @@ m_hWnd
 + 微调(旋转)按钮 SpinControl 的使用
     + 属性设置：
      
-		Auto Buddy -> True
+		Auto Buddy(自动伙伴) -> True
 
 		Set buddy integer -> True
 	
-	+ 微调(旋转)按钮的顺序比伙伴大1(Ctrl + D 查看)
+	+ 微调(旋转)按钮的顺序比伙伴大1(Ctrl + D 查看)，且编辑框序号不能为0
 
 
 + 列表视图控件 CListCtrl
@@ -361,6 +394,24 @@ m_hWnd
 			具体有哪些风格，可通过MSDN查看
 
 		+ 插入某列 CListCtrl::InsertColumn
+		+ 字符串格式化
+    		```
+			CString str;
+			str.Format(_("name%d), i);
+			``` 
+		+ 插入新项后，才能设置子项内容
+    		+ 插入新项(确认第几行) CListCtrl::InsertItem
+    		+ 设置子项内容(设置第几列) CListCtrl::SetItemText
+
++ 树视图控件 CTreeCtrl
+    + 常用属性设置
+        + has buttons -> true
+        + has lines -> true
+        + lines at root -> true
+    + 写代码流程
+        + 加载自定义图标
+            + 获取应用程序对象指针 AfxGetApp()
+            + 加载自定义图标 CWinApp::LoadIcon
 
 
 		

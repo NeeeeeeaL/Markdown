@@ -10,6 +10,8 @@
 	- [7. 对话框](#7-%e5%af%b9%e8%af%9d%e6%a1%86)
 	- [8. 基于对话框(控件)编程](#8-%e5%9f%ba%e4%ba%8e%e5%af%b9%e8%af%9d%e6%a1%86%e6%8e%a7%e4%bb%b6%e7%bc%96%e7%a8%8b)
 	- [9. 常用控件](#9-%e5%b8%b8%e7%94%a8%e6%8e%a7%e4%bb%b6)
+	- [文档视图(二进制操作文件 CArchive)](#%e6%96%87%e6%a1%a3%e8%a7%86%e5%9b%be%e4%ba%8c%e8%bf%9b%e5%88%b6%e6%93%8d%e4%bd%9c%e6%96%87%e4%bb%b6-carchive)
+	- [数据库编程](#%e6%95%b0%e6%8d%ae%e5%ba%93%e7%bc%96%e7%a8%8b)
 
 
 ### 1. Basic concept
@@ -147,7 +149,7 @@ END_MESSAGE_MAP()
 
 ### 4.根据向导创建工程
 
-1. 文档试图结构
+1. 文档视图结构
 
 文档：是一个类，专门存储数据
 
@@ -413,5 +415,89 @@ m_hWnd
             + 获取应用程序对象指针 AfxGetApp()
             + 加载自定义图标 CWinApp::LoadIcon
 
++ 标签控件 CTabCtrl
 
+### 文档视图(二进制操作文件 CArchive)
+
++ 文档视图结构
+ 
+     文档类(CDocument): 存在加载(读写)数据
+
+     视图类(CView): 显示和修改数据
+
+	 + 单文档
+    	 + 文档模板：把框架窗口、文档、视图关联在一起
+    	 + 文档类(CDocument):
+
+			OnNewDocument(), 第一次新建窗口调用，后面每次按"新建",自动调用此函数
+			DeleteContents(), 做一些释放资源的操作，每次按“新建”时，新建前先调用此函数
+		+ 框架类可认为是视图类的容器
+
+	+ 各类相关访问
+    	+ 在视图类，如何访问文档对象指针 CView::GetDocument
+    	+ ` CDocument* GetDocument() cinst; `
+
++ 文档序列化(二进制操作文件)
 		
+	序列化：衣二进制方式写文件
+
+	反序列化：以二进制方式读文件
+
+	+ 写文件
+		+ 创建文件对象 CFile 
+		+ 以写方式打开文件 CFile::Open
+		+ 创建序列化对象，并且和文件关联在一起 CArchive
+			+ CArchive::store 把数据保存到归档文件中。允许CFile写操作
+		+ 往数据流写数据(相当于往文件写数据)
+
+				ar << a << b << c 
+		+  断开数据流和文件的关联 CArchive::Close
+		+  关闭文件 CFile::Close
+
+	+ 读文件
+		+ 创建文件对象 CFile
+		+ 以读方式打开文件 CFile::Open
+		+ 创建序列化对象，并且和文件关联在一起 CArchive
+		+ CArchive::store 把数据保存到归档文件中。允许CFile写操作 
+
++ 文档视图案例
+    + 文档类自带序列化操作函数 Serialize()
+    
+	```
+		void CCArchiveDoc::Serialize(CArchive& ar)
+	{
+		if (ar.IsStoring())
+		{
+			// TODO: 在此添加存储代码
+
+			//按保存，调用此处
+		}
+		else
+		{
+			// TODO: 在此添加加载代码
+
+			//打开文件按钮调用
+
+		}
+	}
+	``` 
+	+ 学生数据管理系统
+    	+ 定义一个学生类 Student
+    	+ 文档类存储数据，视图类修改和显示数据
+        	+ 从尾部添加元素 CList::AddTail
+        	+ 获得此列表尾部元素的位置 CList::GetTailPosition
+        	+ 获取上一个元素 CList::GetPre
+        	+ 获取下一个元素 CList::GetNext
+        	+ 获取首元素地址 CList::GetHeadPosition
+        	+ 获取最后一个元素的位置 CList::GetTailPosition
+        	+ 获取指定位置的元素 CList::GetAt
+        	+ 移除头节点元素(并没有释放空间) CList::RemoveHead
+    	+ 视图的基类是 CFormView
+    	+ 重写文档类 DeleteContents(), 做一些释放资源的操作，每次按“新建”时，新建前先调用此函数
+		
+### 数据库编程
+
++ 准备工作
+    + 安装MYSQL服务器
+    + MYSQL odbc驱动
+

@@ -486,7 +486,7 @@ m_hWnd
     	+ 文档类存储数据，视图类修改和显示数据
         	+ 从尾部添加元素 CList::AddTail
         	+ 获得此列表尾部元素的位置 CList::GetTailPosition
-        	+ 获取上一个元素 CList::GetPre
+        	+ 获取上一个元素 CList::GetPrev
         	+ 获取下一个元素 CList::GetNext
         	+ 获取首元素地址 CList::GetHeadPosition
         	+ 获取最后一个元素的位置 CList::GetTailPosition
@@ -499,5 +499,5 @@ m_hWnd
 
 + 准备工作
     + 安装MYSQL服务器
-    + MYSQL odbc驱动
-
+    + MYSQL odbc驱动(vs若是32位，则驱动必须为32位，否则vs里搜不到驱动)
+	+ Navicat Premium 数据库管理工具安装

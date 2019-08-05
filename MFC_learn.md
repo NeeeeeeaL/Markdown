@@ -439,7 +439,7 @@ m_hWnd
 
 + 文档序列化(二进制操作文件)
 		
-	序列化：衣二进制方式写文件
+	序列化：以二进制方式写文件
 
 	反序列化：以二进制方式读文件
 
@@ -501,3 +501,43 @@ m_hWnd
     + 安装MYSQL服务器
     + MYSQL odbc驱动(vs若是32位，则驱动必须为32位，否则vs里搜不到驱动)
 	+ Navicat Premium 数据库管理工具安装
+
++ odbc层次图
+    + odbc一套标准接口(内部通过sql语句操作数据库，用户就算不懂sql语句也可以借助odbc操作数据库)
+    + 数据源(创建项目的时候用)
+
++ 如何创建数据源(MySQL只能是快照)
+    + 快照(Snapshot)记录集：每次操作后重新查询才更新
+    + 动态(Dynaset)记录集：每次操作自动更新(添加记录外)
+
++ 应用程序框架
+    + CRecordset的子类，主要是对数据库进行相应操作
+        + DoFieldExchange() 自动把数据库的字段和变量相关联
+        + GetDefaultConnect() 获取数据库连接信息
+        + GetDedaultSQL() 获取数据库连接的表
+	+ CFormView的子类，显示数据库内容的视图
+    	+ OnInitUpdate() 主要作初始化功能
+
++ 通过CRecordset类对数据库进行相应操作
+    + 视图类头文件的创建CRecordset的子类对象
+    + 视图类做 增删改查 操作
+        + 打开数据库 CRecordset::Open
+        + 查询记录 CRecordset::Requery
+        + 定位当前记录为记录集中的下一个记录 CRecordset::MoveNext
+        + 定位当前记录为记录集中上一个记录 CRecordset::MovePrev
+        + 是否为最后一个记录的下一个 CRecordset::IsEOF
+        + 是否为第一个记录的上一个 CRecordset::IsBOF
+        + 移动到第一个记录 CRecordset::MoveFirst
+        + 移动到最后一个记录 CRecordset::MoveLast
+        + 添加空记录 CRecordset::AddNew
+        + 如果记录集可修改 CRecordset::CanUpdate
+        + 更新记录集 CRecordset::Update
+        + 删除当前记录 CRecordset::Delete
+        + 编辑当前记录 CRecordset::Edit
+        + 过滤 CRecordset::m_strFilter
+        + 排序 CRecordset::m_strSort(默认升序，降序加 desc)
+    + 注意点
+        + 移动记录集，注意越界处理
+        + 移动记录集后，不要重新查询，重新查询相当于游标重新开始(回到最开始的位置)
+
+

@@ -38,5 +38,18 @@
 + 如果需要封装函数，函数内部要用到Qt一个类中的对象（如ui的控件），此函数必须为类中的函数，且要在类中声明，类外定义，加上作用域(`void MainWindow::test()`)。
 
 + **字符编码问题**
-  
-    + 给Qt
+
+    1. 给Qt控件设置内容，如果有中文，必须是utf-8编码  (utf-8又叫Unicode)
+    2. 从Qt得到的字符串，如果有中文，必须是utf-8编码 (utf-8是Linux和Qt的中文编码)
+    3. 如果使用标准C函数，如果有中文，必须是GBK编码
+     ```
+        编码转换
+        QTextCodec *codec  = QTextCodec::codecForName("GBK");
+        //需要头文件#include <QTextCodec>
+        //codec->fromUnicode();//把UTF8转化为GBK
+
+        char *flie = codec->fromUnicode(fileName).data();
+        //fileName转换为QString类型
+        //或者
+        const char *file = codec->fromUnicode(fileName).toStdString().data();
+     ```

@@ -43,13 +43,17 @@
     2. 从Qt得到的字符串，如果有中文，必须是utf-8编码 (utf-8是Linux和Qt的中文编码)
     3. 如果使用标准C函数，如果有中文，必须是GBK编码
      ```
-        编码转换
-        QTextCodec *codec  = QTextCodec::codecForName("GBK");
-        //需要头文件#include <QTextCodec>
-        //codec->fromUnicode();//把UTF8转化为GBK
+        编码转换步骤：
+        #include <QTextCodec>    //1.包含头文件
+        QTextCodec *codec        //2.定义全局变量codec
+        codec = QTextCodec::codecForName("GBK");  //初始化codec
+        
+        codec->fromUnicode();    //把UTF8转化为GBK
+        codec->toUnicode();      //把GBK转换为UTF8
 
-        char *flie = codec->fromUnicode(fileName).data();
-        //fileName转换为QString类型
-        //或者
-        const char *file = codec->fromUnicode(fileName).toStdString().data();
+        示例：(Qt)
+
+        ui->text->setText(codec->toUnicode("你好吗？很好吧"))；
      ```
+
++ 槽函数
